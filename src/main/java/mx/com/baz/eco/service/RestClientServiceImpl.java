@@ -21,7 +21,7 @@ public class RestClientServiceImpl {
 	//private String url1="http://10.82.56.194:8081/customers/datos";
 	
 	/*public void  getAllObjects(Cabecero data) {
-
+		
 		try {
 			RestTemplate restTemplate = new RestTemplate();			
 			HttpEntity<Cabecero> entity = new HttpEntity<>(data);
@@ -42,6 +42,7 @@ public class RestClientServiceImpl {
 		//	restTemplate.exchange(url, HttpMethod.POST,entity,Cabecero.class);
 			restTemplate.postForEntity(url1, data, RequestSendKafka.class);
 			//log.info("");
+			log.info(data.toString());
 						
 		}catch (Exception rae) {
 			log.error("No se puede conectar al servicio", rae);

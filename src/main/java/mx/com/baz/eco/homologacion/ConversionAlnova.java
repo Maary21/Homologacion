@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 
 import lombok.extern.log4j.Log4j2;
 import mx.com.baz.eco.dto.Cabecero;
@@ -98,17 +97,17 @@ public class ConversionAlnova {
 	String formatoflujo = "0301";
 	String IDFLUJO = ("\"FCIDFLUJO\"" + ":" + "\"" + formatoflujo + cont + "\",");
 	int pk = 16;
-	String PKafka = ("\"keyKafka\""+":"+pk + ",");
+	String PKafka = ("\"partitionKafka\""+":"+pk + ",");
 	int idconc = 4;
-	String IDCONCI = ("\"partitionKafka\""+":"+idconc);
+	String IDCONCI = ("\"fkIdConciliacion\""+":"+idconc);
 	
 
 	//log.info("------dato1");
 	//log.info(dato1.toString());
 	/*reemplazo los { } por coma */
 	
-	String ncadenaNu = cadenahomologar.replaceAll("\\{", "").replaceAll("}", ",").replaceAll("-", "").replaceAll("&", "").trim();
-	System.out.println(ncadenaNu);
+	String ncadenaNu = cadenahomologar.replaceAll("\\{", "").replaceAll("}", ",").replaceAll("-", "").replaceAll("           &", "");
+	//System.out.println(ncadenaNu);
 	
 	String cadenaNu = String.join("", ncadenaNu);
 	//log.info("------cadenaNu");
@@ -120,8 +119,10 @@ public class ConversionAlnova {
 	//log.info(JsonPrueba); 
 	
 	Cabecero dataNuevo = new Gson().fromJson(JsonPrueba, Cabecero.class);
+
 	//log.info("------data Nuevo");
 	//log.info(dataNuevo.toString());
+	    
 	
 	String llave = (idsolo + nuevoFormatofecha2+ cont);
 	//System.out.println("---ALNOVA");
@@ -131,6 +132,9 @@ public class ConversionAlnova {
 	RequestSendKafka datos = new RequestSendKafka(llave ,dataNuevo); //se quito la particion del llamado
 	//System.out.println(datos);
 	resT.getAllObjects(datos);
+	
+	log.info(datos.toString());
+	
 	
 	//System.out.println(Json);
 	//log.info(Json);

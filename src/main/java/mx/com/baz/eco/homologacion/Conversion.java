@@ -106,7 +106,7 @@ public class Conversion {
 		String cadenaNu = String.join("", ncadenaNu);
 		
 		String JsonPrueba = ("{"+FCIDTRANSACCION+IDFLUJO+ cadenaNu + PKafka + IDCONCI + "}");
-
+		
 		Cabecero dataNuevo = new Gson().fromJson(JsonPrueba, Cabecero.class);
 		//log.info("------data Nuevo");
 		//log.info(dataNuevo.toString());

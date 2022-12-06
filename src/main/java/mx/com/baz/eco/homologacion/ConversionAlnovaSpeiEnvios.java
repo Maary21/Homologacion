@@ -63,21 +63,30 @@ public class ConversionAlnovaSpeiEnvios {
 		String convatributoFO = String.join("", atributoFO);
 		String nuevoatributoFO = (convatributoFO + "\"");
 		String convdatoFO = String.join("", datoFO);
-		String datoJsonFO = (nuevoatributoFO + ":" + convdatoFO);
+		//System.out.println(convdatoFO);
+		String[] datocorrect = convdatoFO.split(" ");
+		String fech = datocorrect[0];
+		
+		String correcto = String.join("", fech);
+		System.out.println(correcto);
+		
+		String datoJsonFO = (nuevoatributoFO + ":" + correcto);
+		//System.out.println(datoJsonFO);
 		
 		/*formato correcto de la fecha*/
-		String formatoFecha = convdatoFO.replaceAll(",", "");
+		//String formatoFecha = convdatoFO.replaceAll(",", "");
         //Formato inicial.  
 		//log.info(formatoFecha);
 		
-        SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-dd-MM");
         
-        Date d = formato.parse(formatoFecha); //error
+        Date d = formato.parse(correcto); //error
         //log.info(d.toString());
 		
         //Aplica formato requerido.
         formato.applyPattern("ddMMyyyy");
         String nuevoFormatofecha = formato.format(d);
+        //System.out.println(nuevoFormatofecha);
         //El proceso se rompe por aqui
 		
 		//01 de conciliacion, fecha en ddMMYYYY de la fecha de operacion y el consecutivo
@@ -88,9 +97,9 @@ public class ConversionAlnovaSpeiEnvios {
 		String formatoflujo="0301";
 		String IDFLUJO = ("\"FCIDFLUJO\""+":"+"\""+formatoflujo+ cont +"\",");	
 		int pk = 17;
-		String PKafka = ("\"keyKafka\""+":"+pk + ",");
+		String PKafka = ("\"partitionKafka\""+":"+pk + ",");
 		int idconc = 4;
-		String IDCONCI = ("\"partitionKafka\""+":"+idconc);
+		String IDCONCI = ("\"fkIdConciliacion\""+":"+idconc);
 
 		//log.info(data.toString());
 		
@@ -119,6 +128,7 @@ public class ConversionAlnovaSpeiEnvios {
 		RequestSendKafka datos = new RequestSendKafka(llave ,dataNuevo); //se quito la particion del llamado
 
 		resT.getAllObjects(datos);
+		log.info(datos.toString());
 		//resT.getAllObjects(datos1);
 		//System.out.println(Json);
 		//log.info(Json);
